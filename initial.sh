@@ -87,6 +87,8 @@ cd ..
 
 # prepare pacmole input file
 density=$7
+dens_rep=$(($density*100))  
+dens_rep=$(echo ${dens_rep%.*})
 
 m1="$(obabel  $1.pdb  -osmi  --sort MW+ | cut -d ' ' -f 2)"
 m2="$(obabel  $4.pdb  -osmi  --sort MW+ | cut -d ' ' -f 2)"
@@ -182,10 +184,11 @@ echo 'Done '
 echo 'Executing PACKMOL: '
 
 packmol < $3$1$6$4.inp
+mv $3$1$6$4.inp $3$1_$6$4_0$dens_rep.inp
 
 echo 'Done'
 
-echo "Saving LAMMPS input file => $3$1$6$4.data :  "
+echo "Saving LAMMPS input file => $3$1_$6$4_0$dens_rep.data :  "
 
 obabel  -ipdb $3$1$6$4.pdb -olmpdat | sed -n '/Bonds/q;p' | sed "s/.*xlo.*/0.000000 $size xlo xhi/g" | sed "s/.*ylo.*/0.000000 $size ylo yhi/g" | sed "s/.*zlo.*/0.000000 $size zlo zhi/g" | sed "s/.*bonds.*/0  bonds/g" | sed "s/.*angles.*/0  angles/g"| sed "s/.*dihedrals.*/0  dihedrals/g"| sed "s/.*impropers.*/0  impropers/g"| sed "s/.*bond .*/0  bond types/g" | sed "s/.*angle .*/0  angle types/g"| sed "s/.*dihedral .*/0  dihedral types/g"| sed "s/.*improper .*/0  improper types/g"   > intermediate
 
@@ -194,7 +197,7 @@ key=$(grep -n "Atoms" intermediate|cut -d: -f 1)
 
 
 
-head -n $(($key + 1)) intermediate > $3$1$6$4.data  
+head -n $(($key + 1)) intermediate > $3$1_$6$4_0$dens_rep.data  
 
 key=$(expr $key + 2)
 
@@ -202,12 +205,15 @@ lineNumber=$(expr $key + $lineNumber - 1)
 
 
 
-awk -v start=$key -v end=$lineNumber -v OFS=' \t\t'  'NR>=start && NR<=end {print $1,$3,0.0,$5,$6,$7}' intermediate >> $3$1$6$4.data    
+# awk -v start=$key -v end=$lineNumber -v OFS='\t'  'NR>=start && NR<=end {print $1,$3,0.0,$5,$6,$7}' intermediate >> $3$1_$6$4_0$dens_rep.data    
+
+awk -v start=$key -v end=$lineNumber   'NR>=start && NR<=end {printf "%4d\t%d\t%.3f\t%.3f\t%.3f\t%.3f\n", $1,$3,0.0,$5,$6,$7}' intermediate >> $3$1_$6$4_0$dens_rep.data    
+
 
 rm intermediate
 
 echo 'Done'
 
 echo 'Deleting intermediate files: '
-rm -r *_conformers_directory *.pdb 
+rm -r *_conformers_directory *.pdb *.inp
 echo 'Done' 

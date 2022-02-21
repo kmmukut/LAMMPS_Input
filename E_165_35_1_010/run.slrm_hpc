@@ -1,0 +1,15 @@
+#!/bin/sh
+#SBATCH -p longq
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=24
+#SBATCH --job-name="E_165_35_1_010"
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=<kmmukut@gmail.com>
+echo "working directory = "$SLURM_SUBMIT_DIR
+ 
+## The initial srun will trigger the SLURM prologue on the compute nodes.
+module load lammps/stable_29Sep2021
+
+mpirun -np 24 lmp_mpi -in in.in >> log.out
+#
+echo "All Done!"

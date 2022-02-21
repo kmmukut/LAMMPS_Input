@@ -1,0 +1,52 @@
+# title:        E_165_35_1_010
+# temperature   1650
+# density       0.10000000000000001
+# statistics    1
+# eq. ratio     3.5
+# seed value    1645113591
+
+
+units          real
+atom_style     charge
+boundary       p p p
+
+neighbor       2.5 bin
+neigh_modify   every 10 delay 0 check no
+
+read_data      E_165_35_1_010.data
+
+pair_style     reax/c reaxc.control
+fix            rffqeq all qeq/reax 1 0.0 10.0 0.000001 qeq.param
+fix            rffbonds all reax/c/bonds 1000 E_165_35_1_010.bonds
+
+pair_coeff     * * ffield.reax  C H O
+group          mobile union all
+timestep       0.1
+fix            1 mobile nvt temp 1650 1650 10.0
+velocity       mobile create 1650 1645113591 mom yes rot yes dist gaussian
+dump           1 all atom 1000 E_165_35_1_010.dump
+dump_modify    1 scale no image yes
+
+compute        reax all pair reax/c
+variable       rffeb equal c_reax[1]
+variable       rffea equal c_reax[2]
+variable       rffelp equal c_reax[3]
+variable       rffemol equal c_reax[4]
+variable       rffev equal c_reax[5]
+variable       rffepen equal c_reax[6]
+variable       rffecoa equal c_reax[7]
+variable       rffehb equal c_reax[8]
+variable       rffet equal c_reax[9]
+variable       rffeco equal c_reax[10]
+variable       rffew equal c_reax[11]
+variable       rffep equal c_reax[12]
+variable       rffefi equal c_reax[13]
+variable       rffeqeq equal c_reax[14]
+
+thermo_style   custom etotal ke pe v_rffeb v_rffea v_rffelp v_rffev v_rffepen v_rffecoa v_rffet v_rffew v_rffep elong v_rffeqeq v_rffehb temp press
+thermo_modify  line multi
+thermo         1000
+thermo_modify  flush yes
+restart        1000 E_165_35_1_0101.rst E_165_35_1_0102.rst
+run            10000000
+write_restart  E_165_35_1_010.rst
