@@ -9,7 +9,7 @@ echo "working directory = "$SLURM_SUBMIT_DIR
  
 ## The initial srun will trigger the SLURM prologue on the compute nodes.
 module load openmpi/gcc/64/1.10.1
-module load lammps/stable_29Sep2021
+module load lammps/stable_29sep2021
 
 mpirun -np 24 lmp_mpi -in in.in >> log.out
 #
