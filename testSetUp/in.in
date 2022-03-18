@@ -14,6 +14,7 @@ neighbor       2.5 bin
 neigh_modify   every 10 delay 0 check no
 
 read_data      NAME.data
+#read_restart   NAME.rst
 
 pair_style     reax/c reaxc.control
 fix            rffqeq all qeq/reax 1 0.0 10.0 0.000001 qeq.param
