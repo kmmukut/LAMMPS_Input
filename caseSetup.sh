@@ -8,7 +8,7 @@
 
 
 
-cp -r testSetup/ $1
+cp -r testSetUp/ $1
 cd $1
 
 echo "Starting directory set up for $1"

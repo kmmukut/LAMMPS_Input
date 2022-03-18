@@ -21,6 +21,11 @@ fix            rffbonds all reax/c/bonds 1000 NAME.bonds
 
 pair_coeff     * * ffield.reax  C H O
 group          mobile union all
+
+min_style      cg
+minimize       1e-25 1e-25 10000 10000
+min_modify     dmax 0.01
+
 timestep       0.1
 fix            1 mobile nvt temp TEMP TEMP 10.0
 velocity       mobile create TEMP SEED mom yes rot yes dist gaussian
@@ -48,5 +53,5 @@ thermo_modify  line multi
 thermo         1000
 thermo_modify  flush yes
 restart        1000 NAME1.rst NAME2.rst
-run            10000000
+run            100000000
 write_restart  NAME.rst
