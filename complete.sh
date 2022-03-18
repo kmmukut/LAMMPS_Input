@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/home/mukutk/bin/zsh
 # This will create a new case directory with initial configuration (you must use zsh)
 
 # Create the initial simulation directory for ReaxFF simulation

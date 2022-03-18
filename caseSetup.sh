@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/home/mukutk/bin/zsh
 # This will not work properly for bash scripts (you must use zsh)
 
 # Create the initial simulation directory for ReaxFF simulation

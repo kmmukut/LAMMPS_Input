@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/home/mukutk/bin/zsh
 # This will not work properly for bash scripts (you must use zsh)
 # simple zsh script to generate multiple conformers of a single molecule
 # requires openbabel (obabel) and shuf (coreutils)
