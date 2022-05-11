@@ -147,3 +147,13 @@ echo 'Done'
 ./caseSetup.sh $5
 
 mv $3$1_0$dens_rep.data ./$5/$5.data
+
+cd $5
+
+
+search='C H O'
+replace='C H'
+
+sed -i ''  "s/$search/$replace/gI" in.in
+
+echo "Set up is complete"
