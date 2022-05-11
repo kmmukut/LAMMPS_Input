@@ -1,4 +1,4 @@
-Reactive MD-force field: Combustion C/H/O force field - September 7, 2016 : Supporting information for the manuscript “Extension of ReaxFF Combustion Force Field Towards Syngas Combustion and Initial Oxidation Kinetics” by Chowdhury Ashraf and Adri C.T. van Duin       
+Reactive MD-force field: Combustion C/H/O force field - September 7, 2016
                  
  39       ! Number of general parameters                                         
    50.0000 !p(boc1)                                                              

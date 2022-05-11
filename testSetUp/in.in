@@ -19,13 +19,12 @@ read_data      NAME.data
 pair_style     reax/c reaxc.control
 fix            rffqeq all qeq/reax 1 0.0 10.0 0.000001 qeq.param
 fix            rffbonds all reax/c/bonds 1000 NAME.bonds
+fix            rffSpecies all reax/c/species 2 6 1000 NAME.species  position 100 NAME.pos
+
 
 pair_coeff     * * ffield.reax  C H O
 group          mobile union all
 
-min_style      cg
-minimize       1e-25 1e-25 10000 10000
-min_modify     dmax 0.01
 
 timestep       0.1
 fix            1 mobile nvt temp TEMP TEMP 10.0
