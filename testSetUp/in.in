@@ -1,0 +1,57 @@
+# title:        NAME
+# temperature   TEMP
+# density       DENS
+# statistics    STAT
+# eq. ratio     EQ
+# seed value    SEED
+
+
+units          real
+atom_style     charge
+boundary       p p p
+
+neighbor       2.5 bin
+neigh_modify   every 10 delay 0 check no
+
+read_data      NAME.data
+#read_restart   NAME.rst
+
+pair_style     reax/c reaxc.control
+fix            rffqeq all qeq/reax 1 0.0 10.0 0.000001 qeq.param
+fix            rffbonds all reax/c/bonds 1000 NAME.bonds
+fix            rffSpecies all reax/c/species 2 6 1000 NAME.species  position 100 NAME.pos
+
+
+pair_coeff     * * ffield.reax  C H O
+group          mobile union all
+
+
+timestep       0.1
+fix            1 mobile nvt temp TEMP TEMP 10.0
+velocity       mobile create TEMP SEED mom yes rot yes dist gaussian
+dump           1 all atom 1000 NAME.dump
+dump_modify    1 scale no image yes
+
+compute        reax all pair reax/c
+variable       rffeb equal c_reax[1]
+variable       rffea equal c_reax[2]
+variable       rffelp equal c_reax[3]
+variable       rffemol equal c_reax[4]
+variable       rffev equal c_reax[5]
+variable       rffepen equal c_reax[6]
+variable       rffecoa equal c_reax[7]
+variable       rffehb equal c_reax[8]
+variable       rffet equal c_reax[9]
+variable       rffeco equal c_reax[10]
+variable       rffew equal c_reax[11]
+variable       rffep equal c_reax[12]
+variable       rffefi equal c_reax[13]
+variable       rffeqeq equal c_reax[14]
+
+thermo_style   custom etotal ke pe v_rffeb v_rffea v_rffelp v_rffev v_rffepen v_rffecoa v_rffet v_rffew v_rffep elong v_rffeqeq v_rffehb temp press
+thermo_modify  line multi
+thermo         1000
+thermo_modify  flush yes
+restart        1000 NAME1.rst NAME2.rst
+run            100000000
+write_restart  NAME.rst

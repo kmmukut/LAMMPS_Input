@@ -1,0 +1,16 @@
+#!/bin/sh
+#SBATCH --partition=batch
+#SBATCH --ntasks=24
+#SBATCH --job-name="NAME"
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=<km.mukut@marquette.edu>
+echo "working directory = "$SLURM_SUBMIT_DIR
+ 
+## The initial srun will trigger the SLURM prologue on the compute nodes.
+module load openmpi/gcc
+
+mpirun -np 24 lmp_mpi -in  in.in  >> log.out
+
+
+
+echo "All Done!"
