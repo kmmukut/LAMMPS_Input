@@ -42,5 +42,10 @@ sed -i ''  "s/STAT/$stat/g" in.in
 sed -i ''  "s/NAME/$1/g" run.slrm_raj 
 sed -i ''  "s/NAME/$1/g" run.slrm_hpc
 
+search='C H O'
+replace='C H'
+
+sed -i ''  "s/$search/$replace/gI" in.in
+
 
 echo "Set up is complete"
