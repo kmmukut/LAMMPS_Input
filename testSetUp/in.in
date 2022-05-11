@@ -19,7 +19,7 @@ read_data      NAME.data
 pair_style     reax/c reaxc.control
 fix            rffqeq all qeq/reax 1 0.0 10.0 0.000001 qeq.param
 fix            rffbonds all reax/c/bonds 1000 NAME.bonds
-fix            rffSpecies all reax/c/species 2 6 1000 NAME.species  position 100 NAME.pos
+fix            rffSpecies all reax/c/species 2 6 1000 NAME.species  position 1000 NAME.pos
 
 
 pair_coeff     * * ffield.reax  C H O
